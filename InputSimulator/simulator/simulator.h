@@ -10,6 +10,8 @@
 #include "cJSON.h"
 #include <map>
 #include <functional>
+#include <mutex>
+#include <condition_variable>
 class Simulator
 {
 public:
@@ -19,6 +21,7 @@ public:
 	void stop();
 	bool loadScript(const std::string& script);
 private:
+	bool sleep(long ms);
 	void loadCommand();
 	bool parseScript();
 	bool dispatchCommand(const cJSON *json);
@@ -41,5 +44,8 @@ private:
 	std::shared_ptr<std::thread> mSimulatorThread;
 	std::string mScript;
 	std::map<std::string, std::function<bool(const cJSON* json)>> mCommandMap;
+	std::mutex mCondLock;
+	std::condition_variable mCond;
+	std::mutex mLock;
 };
 #endif

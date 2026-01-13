@@ -16,24 +16,36 @@ void Simulator::start()
 {
 	if (!mIsRunning.exchange(true))
 	{
+		std::lock_guard<std::mutex> autoLock(mLock);
 		mSimulatorThread = std::make_shared<std::thread>([&]() {
+			std::lock_guard<std::mutex> autoLock(mLock);
 			parseScript();
 			mSimulatorThread->detach();
-			mIsRunning.store(false);
 			mConsole->log("脚本执行完成。");
+			mIsRunning.store(false);
 			});
 	}
 }
 
 void Simulator::stop()
 {
-	if (mIsRunning.exchange(false))
+	mCondLock.lock();
+	mCond.notify_all();
+	mCondLock.unlock();
+	std::lock_guard<std::mutex> autoLock(mLock);
+	if (mSimulatorThread->joinable())
 	{
-		if (mSimulatorThread->joinable())
-		{
-			mSimulatorThread->join();
-		}
+		mSimulatorThread->join();
 	}
+}
+
+bool Simulator::sleep(long ms)
+{
+	std::unique_lock<std::mutex> autoLock(mCondLock);
+	if (mCond.wait_for(autoLock, std::chrono::milliseconds(ms)) != std::cv_status::no_timeout)
+		return true;
+	else
+		return false;
 }
 
 void Simulator::loadCommand()
@@ -140,8 +152,7 @@ bool Simulator::delayCommand(const cJSON* json)
 	}
 	int ran = random > 0 ? ::rand() % random : 0;
 	duration += ran;
-	std::this_thread::sleep_for(std::chrono::milliseconds(duration));
-	return true;
+	return sleep(duration);
 }
 
 bool Simulator::keyDownCommand(const cJSON* json)
@@ -172,7 +183,8 @@ bool Simulator::keyDownCommand(const cJSON* json)
 	mSimulateKey->keyDown(key);
 	if (duration >= 0)
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
+		if (!sleep(duration))
+			return false;
 		mSimulateKey->keyUp(key);
 	}
 	return true;
@@ -239,6 +251,7 @@ bool Simulator::mouseMoveCommand(const cJSON* json)
 
 bool Simulator::mouseLeftClickCommand(const cJSON* json)
 {
+	bool ret = true;
 	cJSON* xJson = cJSON_GetObjectItem(json, "x");
 	if (!xJson || !cJSON_IsNumber(xJson))
 	{
@@ -267,7 +280,8 @@ bool Simulator::mouseLeftClickCommand(const cJSON* json)
 	ran = random > 0 ? ::rand() % random : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	if (!sleep(200))
+		return false;
 	mSimulateMouse->leftKeyClick();
 	return true;
 }
@@ -302,7 +316,8 @@ bool Simulator::mouseRightClickCommand(const cJSON* json)
 	ran = random > 0 ? ::rand() % random : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	if (!sleep(200))
+		return false;
 	mSimulateMouse->rightKeyClick();
 	return true;
 }
@@ -337,7 +352,8 @@ bool Simulator::mouseLeftDoubleClickCommand(const cJSON* json)
 	ran = random > 0 ? ::rand() % random : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	if (!sleep(200))
+		return false;
 	mSimulateMouse->leftKeyDoubleClick();
 	return true;
 }
@@ -372,7 +388,8 @@ bool Simulator::mouseRightDoubleClickCommand(const cJSON* json)
 	ran = random > 0 ? ::rand() % random : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	if (!sleep(200))
+		return false;
 	mSimulateMouse->rightKeyDoubleClick();
 	return true;
 }
