@@ -243,16 +243,16 @@ bool Simulator::mouseMoveCommand(const cJSON* json)
 	}
 	int y = (int)cJSON_GetNumberValue(yJson);
 
-	int random = -1;
-	cJSON* randomJson = cJSON_GetObjectItem(json, "random");
-	if (randomJson && cJSON_IsNumber(randomJson))
+	int offset = -1;
+	cJSON* offsetJson = cJSON_GetObjectItem(json, "offset");
+	if (offsetJson && cJSON_IsNumber(offsetJson))
 	{
-		random = (int)cJSON_GetNumberValue(randomJson);
+		offset = (int)cJSON_GetNumberValue(offsetJson);
 	}
-	int ran = random > 0 ? ::rand() % random : 0;
+	int ran = offset > 0 ? ::rand() % offset : 0;
 	x += ran;
 
-	ran = random > 0 ? ::rand() % random : 0;
+	ran = offset > 0 ? ::rand() % offset : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
 	return true;
@@ -277,16 +277,16 @@ bool Simulator::mouseLeftClickCommand(const cJSON* json)
 	}
 	int y = (int)cJSON_GetNumberValue(yJson);
 
-	int random = -1;
-	cJSON* randomJson = cJSON_GetObjectItem(json, "random");
-	if (randomJson && cJSON_IsNumber(randomJson))
+	int offset = -1;
+	cJSON* offsetJson = cJSON_GetObjectItem(json, "offset");
+	if (offsetJson && cJSON_IsNumber(offsetJson))
 	{
-		random = (int)cJSON_GetNumberValue(randomJson);
+		offset = (int)cJSON_GetNumberValue(offsetJson);
 	}
-	int ran = random > 0 ? ::rand() % random : 0;
+	int ran = offset > 0 ? ::rand() % offset : 0;
 	x += ran;
 
-	ran = random > 0 ? ::rand() % random : 0;
+	ran = offset > 0 ? ::rand() % offset : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
 	if (!sleep(200))
@@ -313,16 +313,16 @@ bool Simulator::mouseRightClickCommand(const cJSON* json)
 	}
 	int y = (int)cJSON_GetNumberValue(yJson);
 
-	int random = -1;
-	cJSON* randomJson = cJSON_GetObjectItem(json, "random");
-	if (randomJson && cJSON_IsNumber(randomJson))
+	int offset = -1;
+	cJSON* offsetJson = cJSON_GetObjectItem(json, "offset");
+	if (offsetJson && cJSON_IsNumber(offsetJson))
 	{
-		random = (int)cJSON_GetNumberValue(randomJson);
+		offset = (int)cJSON_GetNumberValue(offsetJson);
 	}
-	int ran = random > 0 ? ::rand() % random : 0;
+	int ran = offset > 0 ? ::rand() % offset : 0;
 	x += ran;
 
-	ran = random > 0 ? ::rand() % random : 0;
+	ran = offset > 0 ? ::rand() % offset : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
 	if (!sleep(200))
@@ -349,16 +349,16 @@ bool Simulator::mouseLeftDoubleClickCommand(const cJSON* json)
 	}
 	int y = (int)cJSON_GetNumberValue(yJson);
 
-	int random = -1;
-	cJSON* randomJson = cJSON_GetObjectItem(json, "random");
-	if (randomJson && cJSON_IsNumber(randomJson))
+	int offset = -1;
+	cJSON* offsetJson = cJSON_GetObjectItem(json, "offset");
+	if (offsetJson && cJSON_IsNumber(offsetJson))
 	{
-		random = (int)cJSON_GetNumberValue(randomJson);
+		offset = (int)cJSON_GetNumberValue(offsetJson);
 	}
-	int ran = random > 0 ? ::rand() % random : 0;
+	int ran = offset > 0 ? ::rand() % offset : 0;
 	x += ran;
 
-	ran = random > 0 ? ::rand() % random : 0;
+	ran = offset > 0 ? ::rand() % offset : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
 	if (!sleep(200))
@@ -385,16 +385,16 @@ bool Simulator::mouseRightDoubleClickCommand(const cJSON* json)
 	}
 	int y = (int)cJSON_GetNumberValue(yJson);
 
-	int random = -1;
-	cJSON* randomJson = cJSON_GetObjectItem(json, "random");
-	if (randomJson && cJSON_IsNumber(randomJson))
+	int offset = -1;
+	cJSON* offsetJson = cJSON_GetObjectItem(json, "offset");
+	if (offsetJson && cJSON_IsNumber(offsetJson))
 	{
-		random = (int)cJSON_GetNumberValue(randomJson);
+		offset = (int)cJSON_GetNumberValue(offsetJson);
 	}
-	int ran = random > 0 ? ::rand() % random : 0;
+	int ran = offset > 0 ? ::rand() % offset : 0;
 	x += ran;
 
-	ran = random > 0 ? ::rand() % random : 0;
+	ran = offset > 0 ? ::rand() % offset : 0;
 	y += ran;
 	mSimulateMouse->MoveTo(x, y);
 	if (!sleep(200))

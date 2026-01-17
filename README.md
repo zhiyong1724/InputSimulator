@@ -40,19 +40,19 @@
 |key_click|key|number|键盘码|
 |mouse_move|x|number|鼠标位置横坐标|
 |-|y|number|鼠标位置纵坐标|
-|-|random|number|可选项，x和y加上一个0到random范围的随机数|
+|-|offset|number|可选项，x和y加上一个0到offset范围的随机数|
 |mouse_left_click|x|number|鼠标位置横坐标|
 |-|y|number|鼠标位置纵坐标|
-|-|random|number|可选项，x和y加上一个0到random范围的随机数|
+|-|offset|number|可选项，x和y加上一个0到offset范围的随机数|
 |mouse_right_click|x|number|鼠标位置横坐标|
 |-|y|number|鼠标位置纵坐标|
-|-|random|number|可选项，x和y加上一个0到random范围的随机数|
+|-|offset|number|可选项，x和y加上一个0到offset范围的随机数|
 |mouse_left_double_click|x|number|鼠标位置横坐标|
 |-|y|number|鼠标位置纵坐标|
-|-|random|number|可选项，x和y加上一个0到random范围的随机数|
+|-|offset|number|可选项，x和y加上一个0到offset范围的随机数|
 |mouse_right_double_click|x|number|鼠标位置横坐标|
 |-|y|number|鼠标位置纵坐标|
-|-|random|number|可选项，x和y加上一个0到random范围的随机数|
+|-|offset|number|可选项，x和y加上一个0到offset范围的随机数|
 ## 代码仓库
 https://github.com/zhiyong1724/InputSimulatorForAndroid.git
 ## BUG反馈
